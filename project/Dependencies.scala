@@ -14,6 +14,7 @@ object Dependencies {
   private val jsr166e                        = "io.gatling"                 % "jsr166e"            % "1.0"
   private val ahc                            = "com.ning"                   % "async-http-client"  % "1.8.9"
   private val netty                          = "io.netty"                   % "netty"              % "3.9.1.Final"
+  private val javassist                      = "org.javassist"              % "javassist"          % "3.18.2-GA"
   private val akkaActor                      = "com.typesafe.akka"         %% "akka-actor"         % akkaVersion
   private val config                         = "com.typesafe"               % "config"             % "1.2.1"
   private val saxon                          = "net.sf.saxon"               % "Saxon-HE"           % "9.5.1-5"    classifier "compressed"
@@ -62,7 +63,7 @@ object Dependencies {
 
   val redisDependencies = redisClient +: testDeps
 
-  val httpDependencies = Seq(ahc, netty, jzlib) ++ testDeps
+  val httpDependencies = Seq(ahc, netty, javassist, jzlib) ++ testDeps
 
   val jmsDependencies = Seq(jmsApi) ++ testDeps ++ jmsTestDeps
 

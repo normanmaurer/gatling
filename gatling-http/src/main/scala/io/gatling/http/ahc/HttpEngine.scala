@@ -15,7 +15,7 @@
  */
 package io.gatling.http.ahc
 
-import java.util.concurrent.{ Executors, ThreadFactory }
+import java.util.concurrent.{ TimeUnit, Executors, ThreadFactory }
 
 import org.jboss.netty.channel.socket.nio.{ NioWorkerPool, NioClientBossPool, NioClientSocketChannelFactory }
 import org.jboss.netty.logging.{ InternalLoggerFactory, Slf4JLoggerFactory }
@@ -40,6 +40,7 @@ import io.gatling.http.response.ResponseBuilderFactory
 import io.gatling.http.util.SSLHelper.{ RichAsyncHttpClientConfigBuilder, newKeyManagers, newTrustManagers }
 import io.gatling.http.check.ws.WsCheck
 import io.gatling.core.check.CheckResult
+import io.netty.util.HashedWheelTimer
 
 case class HttpTx(session: Session,
                   request: Request,
@@ -112,7 +113,7 @@ class HttpEngine extends AkkaDefaults with StrictLogging {
 
   val nioThreadPool = Executors.newCachedThreadPool
 
-  val nettyTimer = new AkkaNettyTimer
+  val nettyTimer = new HashedWheelTimer(10, TimeUnit.MILLISECONDS) // AkkaNettyTimer
 
   // set up Netty LoggerFactory for slf4j instead of default JDK
   InternalLoggerFactory.setDefaultFactory(new Slf4JLoggerFactory)
